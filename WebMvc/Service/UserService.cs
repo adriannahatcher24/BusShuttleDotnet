@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using DomainModel;
 using Microsoft.VisualBasic;
 using WebMvc.Database;
-
 namespace WebMvc.Service
 {
     public class UserService : UserServiceInterface
@@ -17,10 +14,10 @@ namespace WebMvc.Service
         {
             _userDb = userDb;
         }
-
         public List<UserModel> GetUsers()
         {
-            return _userDb.User.Select(u => new UserModel(u.Id, u.FirstName, u.LastName, u.UserName)).ToList();
+            var userList = _userDb.User.Select(u => new UserModel(u.Id, u.FirstName, u.LastName, u.UserName, u.Password)).ToList();
+            return userList;
         }
 
         public void CreateUser(string firstname, string lastname, string userName, string password)
@@ -30,44 +27,53 @@ namespace WebMvc.Service
                 FirstName = firstname,
                 LastName = lastname,
                 UserName = userName,
-                Password = HashPassword(password)
+                Password = password
             };
             _userDb.User.Add(newUser);
             _userDb.SaveChanges();
+
         }
+
 
         public UserModel? FindUserByID(int id)
         {
             var user = _userDb.User.FirstOrDefault(u => u.Id == id);
             if (user != null)
             {
-                return new UserModel(user.Id, user.FirstName, user.LastName, user.UserName);
+                return new UserModel(user.Id, user.FirstName, user.LastName, user.UserName, user.Password);
             }
             return null;
         }
-
-        public bool VerifyUser(string userName, string password)
+        public bool VerifyUserAsManager(string userName, string password)
         {
-            var user = _userDb.User.FirstOrDefault(u => u.UserName == userName);
-            if (user != null && VerifyPassword(password, user.Password))
+            var user = _userDb.User.FirstOrDefault(u => u.UserName == userName && u.Password == password);
+            if (user != null && user.Id == 1)
             {
                 return true;
             }
             return false;
         }
-
-        private string HashPassword(string password)
+        public bool VerifyUser(string userName, string password)
         {
-            using (var hasher = new SHA256Managed())
+            var user = _userDb.User.FirstOrDefault(u => u.UserName == userName && u.Password == password);
+            if (user != null)
             {
-                return Convert.ToBase64String(hasher.ComputeHash(Encoding.UTF8.GetBytes(password)));
+                return true;
             }
+            return false;
         }
-
-        private bool VerifyPassword(string providedPassword, string storedHash)
+        public Driver VerifyUserAsDriver(string userName, string password)
         {
-            string providedHash = HashPassword(providedPassword);
-            return providedHash == storedHash;
+            var user = _userDb.User.FirstOrDefault(u => u.UserName == userName && u.Password == password);
+            if (user != null && user.Id != 1)
+            {
+                var driver = _userDb.Driver.FirstOrDefault(d => d.FirstName == user.FirstName && d.LastName == user.LastName);
+                if (driver != null)
+                {
+                    return driver;
+                }
+            }
+            return null;
         }
     }
 }

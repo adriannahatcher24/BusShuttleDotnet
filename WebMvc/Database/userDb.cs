@@ -27,13 +27,13 @@ public class userDb : DbContext
             .HasOne(r => r.Stop)
             .WithMany()
             .HasForeignKey(r => r.StopId)
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.Restrict); // Or .Cascade as needed
 
         modelBuilder.Entity<Route>()
             .HasOne(r => r.Loop)
             .WithMany()
             .HasForeignKey(r => r.LoopId)
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.Restrict); // Or .Cascade as needed
 
         modelBuilder.Entity<Entry>()
         .HasOne(r => r.Loop)

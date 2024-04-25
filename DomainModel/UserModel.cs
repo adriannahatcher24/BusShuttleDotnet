@@ -14,8 +14,8 @@ public class UserModel
     {
         UserName = username;
         Password = password;
-        }
-            public UserModel(int id, string firstname, string lastname, string username, string password)
+    }
+    public UserModel(int id, string firstname, string lastname, string username, string password)
     {
         Id = id;
         FirstName = firstname;

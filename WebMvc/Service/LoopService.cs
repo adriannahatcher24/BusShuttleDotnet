@@ -4,7 +4,6 @@ using System.Linq;
 using DomainModel;
 using Microsoft.VisualBasic;
 using WebMvc.Database;
-
 namespace WebMvc.Service
 {
     public class LoopService : LoopServiceInterface
@@ -15,7 +14,6 @@ namespace WebMvc.Service
         {
             _userDb = userDb;
         }
-
         public List<LoopModel> GetLoops()
         {
             var loopList = _userDb.Loop.Select(l => new LoopModel(l.Id, l.Name)).ToList();
@@ -29,9 +27,9 @@ namespace WebMvc.Service
             {
                 loop.Name = name;
                 _userDb.SaveChanges();
+
             }
         }
-
         public void CreateLoop(string name)
         {
             var newLoop = new Database.Loop
@@ -51,7 +49,6 @@ namespace WebMvc.Service
             }
             return null;
         }
-
         public void DeleteLoop(int id)
         {
             var loop = _userDb.Loop.FirstOrDefault(l => l.Id == id);

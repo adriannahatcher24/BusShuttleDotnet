@@ -38,7 +38,7 @@ public class HomeController : Controller
     [Authorize(Roles = "Manager")]
     public IActionResult Report(string loopId, string busId, string stopId, string driverId, string day)
     {
-        _logger.LogDebug("Loading Report generation.");
+        _logger.LogDebug("Starting Report generation.");
         var loops = loopService.GetLoops().Select(l => new SelectListItem
         {
             Value = l.Id.ToString(),
@@ -124,6 +124,7 @@ public class HomeController : Controller
             LoopName = dto.LoopName,
             DriverName = dto.DriverName,
             BusNumber = dto.BusNumber
+            // Assign other properties as necessary
         }).ToList();
         _logger.LogInformation("Report generated successfully.");
 
@@ -156,19 +157,19 @@ public class HomeController : Controller
     {
         var loops = loopService.GetLoops().Select(l => new SelectListItem
         {
-            Value = l.Id.ToString(), 
-            Text = l.Name 
+            Value = l.Id.ToString(), // Assuming 'Id' is the loop identifier in your loop entity
+            Text = l.Name // And 'Name' is the property you want to display in the dropdown
         }).ToList();
         ViewBag.AvailableLoops = loops;
 
         var busses = busService.GetBusses().Select(b => new SelectListItem
         {
-            Value = b.Id.ToString(), 
-            Text = b.BusNumber.ToString() 
+            Value = b.Id.ToString(), // Assuming 'Id' is the loop identifier in your loop entity
+            Text = b.BusNumber.ToString() // And 'Name' is the property you want to display in the dropdown
         }).ToList();
 
         ViewBag.AvailableBusses = busses;
-        _logger.LogInformation("Driver Sign-on page.");
+        _logger.LogInformation("Accessed DriverSignOn page.");
         return View();
     }
     [HttpPost]
@@ -178,7 +179,7 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            _logger.LogInformation("Redirecting to DriverScreen.");
+            _logger.LogInformation("Driver signed on successfully. Redirecting to DriverScreen.");
             return RedirectToAction("DriverScreen", new { busId = driverSignOn.BusId, loopId = driverSignOn.LoopId });
         }
         _logger.LogError("Failed entry start validation at {time}.", DateTime.Now);
@@ -189,8 +190,8 @@ public class HomeController : Controller
     {
         var stops = entryService.GetAvailableStops(loopId).Select(l => new SelectListItem
         {
-            Value = l.Id.ToString(), 
-            Text = l.StopName 
+            Value = l.Id.ToString(), // Assuming 'Id' is the loop identifier in your loop entity
+            Text = l.StopName // And 'Name' is the property you want to display in the dropdown
         }).ToList();
         ViewBag.AvailableStops = stops;
         _logger.LogInformation("DriverScreen displayed with bus ID {BusId} and loop ID {LoopId}.", busId, loopId);
@@ -205,10 +206,10 @@ public class HomeController : Controller
     [Authorize(Roles = "Driver")]
     public IActionResult DriverScreen(DriverScreenModel driverSignOn)
     {
-        _logger.LogInformation("Processing DriverScreen with data.");
+        _logger.LogInformation("Processing DriverScreen with model data.");
         if (ModelState.IsValid)
         {
-            _logger.LogDebug("Proceeding with user authentication check.");
+            _logger.LogDebug("Model state is valid. Proceeding with user authentication check.");
             if (User.Identity.IsAuthenticated)
             {
                 _logger.LogDebug("User is authenticated. Retrieving user's full name from claims.");
@@ -216,7 +217,7 @@ public class HomeController : Controller
 
                 if (fullName != null)
                 {
-                    _logger.LogInformation("Fetching: {FullName} driver details.", fullName);
+                    _logger.LogInformation("Successfully retrieved full name: {FullName}. Fetching driver details.", fullName);
                     var driver = driverService.GetDriverByName(fullName);
                     _logger.LogInformation(driver.ToString());
 
@@ -225,7 +226,7 @@ public class HomeController : Controller
                 }
                 else
                 {
-                    _logger.LogWarning("Failed to retrieve driver's name.");
+                    _logger.LogWarning("Failed to retrieve driver's name from claims.");
                 }
             }
             else
@@ -254,12 +255,12 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.busService.DeleteBus(id);
-            _logger.LogInformation("Bus {BusId} removed.", id);
+            _logger.LogInformation("Bus with Id {BusId} removed.", id);
             return RedirectToAction("BusView");
         }
         else
         {
-            _logger.LogWarning("Model state is invalid when attempting to delete bus {BusId}.", id);
+            _logger.LogWarning("Model state is invalid when attempting to delete bus with Id {BusId}.", id);
             return View();
         }
     }
@@ -267,7 +268,7 @@ public class HomeController : Controller
     [Authorize(Roles = "Manager")]
     public IActionResult BusEdit([FromRoute] int id)
     {
-        _logger.LogDebug("Editing bus  {BusId}.", id);
+        _logger.LogDebug("Editing bus with Id {BusId}.", id);
         var bus = this.busService.FindBusByID(id);
         var busEditModel = BusEditModel.FromBus(bus);
 
@@ -282,12 +283,12 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.busService.UpdateBusByID(id, bus.BusNumber);
-            _logger.LogInformation("Bus {BusId} was updated to {BusDetails}.", id, bus);
+            _logger.LogInformation("Bus with id {BusId} was updated to {BusDetails}.", id, bus);
             return RedirectToAction("BusView");
         }
         else
         {
-            _logger.LogWarning("Model state is invalid when attempting to update bus  {BusId}.", id);
+            _logger.LogWarning("Model state is invalid when attempting to update bus with Id {BusId}.", id);
             return View(bus);
         }
     }
@@ -306,7 +307,7 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.busService.CreateBus(bus.BusNumber);
-            _logger.LogInformation("New bus was created with Bus {BusNumber}.", bus.BusNumber);
+            _logger.LogInformation("New bus was created with Bus Number {BusNumber}.", bus.BusNumber);
             return RedirectToAction("BusView");
         }
         else
@@ -334,19 +335,19 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.driverService.DeleteDriver(id);
-            _logger.LogInformation("Driver {DriverId} was deleted.", id);
+            _logger.LogInformation("Driver with id {DriverId} was deleted.", id);
             return RedirectToAction("DriverView");
         }
         else
         {
-            _logger.LogWarning("Model state is invalid when attempting to delete driver  {DriverId}.", id);
+            _logger.LogWarning("Model state is invalid when attempting to delete driver with id {DriverId}.", id);
             return View();
         }
     }
     [Authorize(Roles = "Manager")]
     public IActionResult DriverEdit([FromRoute] int id)
     {
-        _logger.LogDebug("Editing driver {DriverId}.", id);
+        _logger.LogDebug("Editing driver with Id {DriverId}.", id);
         var driver = this.driverService.FindDriverByID(id);
         var driverEditModel = DriverEditModel.FromDriver(driver);
         return View(driverEditModel);
@@ -360,12 +361,12 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.driverService.UpdateDriverByID(id, driver.FirstName, driver.LastName);
-            _logger.LogInformation("Driver {DriverId} updated to First Name: {FirstName}, Last Name: {LastName}", id, driver.FirstName, driver.LastName);
+            _logger.LogInformation("Driver with id {DriverId} updated to FirstName: {FirstName}, LastName: {LastName}", id, driver.FirstName, driver.LastName);
             return RedirectToAction("DriverView");
         }
         else
         {
-            _logger.LogWarning("Model state is invalid when attempting to update driver {DriverId}.", id);
+            _logger.LogWarning("Model state is invalid when attempting to update driver with Id {DriverId}.", id);
             return View(driver);
         }
     }
@@ -388,7 +389,7 @@ public class HomeController : Controller
             Value = u.Id.ToString(),
             Text = u.FirstName + " " + u.LastName
         })
-        .Where(u => u.Value != "1" && !driverNames.Contains(u.Text)) 
+        .Where(u => u.Value != "1" && !driverNames.Contains(u.Text)) // Exclude users with ID 0 and all matching drivers
         .ToList();
 
         ViewBag.AvailableUsers = users;
@@ -409,7 +410,7 @@ public class HomeController : Controller
             var LastName = userService.FindUserByID(driver.UserId).LastName;
 
             this.driverService.CreateDriver(FirstName, LastName);
-            _logger.LogInformation("New driver added with First Name: {FirstName}, Last Name: {LastName}", FirstName, LastName);
+            _logger.LogInformation("New driver added with FirstName: {FirstName}, LastName: {LastName}", FirstName, LastName);
 
             return RedirectToAction("DriverView");
         }
@@ -453,12 +454,12 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.entryService.DeleteEntry(id);
-            _logger.LogInformation("Entry {EntryId} was removed", id);
+            _logger.LogInformation("Entry with Id {EntryId} was removed", id);
             return RedirectToAction("EntryView");
         }
         else
         {
-            _logger.LogWarning("Attempted to delete entry {EntryId}, but model state is invalid.", id);
+            _logger.LogWarning("Attempted to delete entry with Id {EntryId}, but model state is invalid.", id);
             return View();
         }
     }
@@ -480,12 +481,12 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             this.loopService.DeleteLoop(id);
-            _logger.LogInformation("Loop  {LoopId} was removed", id);
+            _logger.LogInformation("Loop with id {LoopId} was removed", id);
             return RedirectToAction("LoopView");
         }
         else
         {
-            _logger.LogWarning("Attempted to delete loop  {LoopId}, but model state is invalid.", id);
+            _logger.LogWarning("Attempted to delete loop with id {LoopId}, but model state is invalid.", id);
             return View();
         }
     }
@@ -498,27 +499,22 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-[ValidateAntiForgeryToken]
-[Authorize(Roles = "Manager")]
-public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
-{
-    try
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Manager")]
+    public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
     {
         if (ModelState.IsValid)
         {
             this.loopService.UpdateLoopByID(id, loop.Name);
-            _logger.LogInformation("Loop {LoopId} updated with new name: {Name}", id, loop.Name);
+            _logger.LogInformation("Loop with id {LoopId} was updated with new name: {Name}", id, loop.Name);
             return RedirectToAction("LoopView");
         }
-        _logger.LogWarning("Failed to update loop {LoopId} due to invalid model state", id);
+        else
+        {
+            _logger.LogWarning("Attempted to update loop with id {LoopId}, but model state is invalid.", id);
+            return View(loop);
+        }
     }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error updating loop {LoopId}", id);
-    }
-    return View(loop);
-}
-
 
     [Authorize(Roles = "Manager")]
     public IActionResult LoopCreate()
@@ -576,12 +572,12 @@ public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
         if (ModelState.IsValid)
         {
             this.routeService.DeleteRoute(id);
-            _logger.LogInformation("Route {RouteId} was deleted.", id);
+            _logger.LogInformation("Route with id {RouteId} was deleted.", id);
             return RedirectToAction("RouteView");
         }
         else
         {
-            _logger.LogWarning("Failed to delete route {RouteId}; model state invalid.", id);
+            _logger.LogWarning("Failed to delete route with id {RouteId}; model state invalid.", id);
             return View();
         }
     }
@@ -603,12 +599,12 @@ public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
         if (ModelState.IsValid)
         {
             this.routeService.UpdateRouteByID(id, route.Order, route.StopId, route.LoopId);
-            _logger.LogInformation("Route {RouteId} was updated.", id);
+            _logger.LogInformation("Route with id {RouteId} was updated.", id);
             return RedirectToAction("RouteView");
         }
         else
         {
-            _logger.LogWarning("Failed to update route {RouteId}; model state invalid.", id);
+            _logger.LogWarning("Failed to update route with id {RouteId}; model state invalid.", id);
             return View(route);
         }
     }
@@ -617,16 +613,16 @@ public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
     {
         var loops = loopService.GetLoops().Select(l => new SelectListItem
         {
-            Value = l.Id.ToString(), 
-            Text = l.Name 
+            Value = l.Id.ToString(), // Assuming 'Id' is the loop identifier in your loop entity
+            Text = l.Name // And 'Name' is the property you want to display in the dropdown
         }).ToList();
 
         ViewBag.AvailableLoops = loops;
 
         var stops = stopService.GetStops().Select(s => new SelectListItem
         {
-            Value = s.Id.ToString(), 
-            Text = s.Name 
+            Value = s.Id.ToString(), // Assuming 'Id' is the loop identifier in your loop entity
+            Text = s.Name // And 'Name' is the property you want to display in the dropdown
         }).ToList();
 
         ViewBag.AvailableStops = stops;
@@ -695,12 +691,12 @@ public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
         if (ModelState.IsValid)
         {
             this.stopService.DeleteStop(id);
-            _logger.LogInformation("Stop {StopId} deleted successfully.", id);
+            _logger.LogInformation("Stop with id {StopId} deleted successfully.", id);
             return RedirectToAction("StopView");
         }
         else
         {
-            _logger.LogWarning("Failed to delete stop {StopId} due to invalid model state.", id);
+            _logger.LogWarning("Failed to delete stop with id {StopId} due to invalid model state.", id);
             return View();
         }
     }
@@ -720,12 +716,12 @@ public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
         if (ModelState.IsValid)
         {
             this.stopService.UpdateStopByID(id, stop.Name, stop.Latitude, stop.Longitude);
-            _logger.LogInformation("Stop {StopId} updated successfully.", id);
+            _logger.LogInformation("Stop with id {StopId} updated successfully.", id);
             return RedirectToAction("StopView");
         }
         else
         {
-            _logger.LogWarning("Failed to update stop {StopId} due to invalid model state.", id);
+            _logger.LogWarning("Failed to update stop with id {StopId} due to invalid model state.", id);
             return View(stop);
         }
     }
@@ -815,13 +811,13 @@ public IActionResult LoopEdit(int id, [Bind("Name")] LoopEditModel loop)
             {
                 ModelState.AddModelError("", "Invalid username or password");
                 _logger.LogWarning("Login attempt failed for user {Username}.", user.UserName);
-                return View(user);
+                return View();
             }
         }
         else
         {
             _logger.LogWarning("Login attempt with invalid model state for user {Username}.", user.UserName);
-            return View(user);
+            return View();
         }
     }
 

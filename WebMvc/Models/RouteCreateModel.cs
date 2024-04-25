@@ -10,11 +10,7 @@ namespace WebMvc.Models
     {
         public int Id { get; set; }
 
-        [Required]
-    public int Order { get; set; }
-
-    [Required]
-    public int StopId { get; set; }
+        public int StopId { get; set; }
         public int LoopId { get; set; }
     }
 }

@@ -11,12 +11,5 @@ namespace WebMvc.Models
         public int Id { get; set; }
 
         public int BusNumber { get; set; }
-
-        [Required]
-    [StringLength(100, MinimumLength = 3)]
-    public string BusName { get; set; }
-
-    [Required]
-    public int Capacity { get; set; }
     }
 }

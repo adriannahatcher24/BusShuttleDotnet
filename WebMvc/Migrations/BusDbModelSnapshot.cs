@@ -10,7 +10,7 @@ using WebMvc.Database;
 namespace WebMvc.Migrations
 {
     [DbContext(typeof(userDb))]
-    partial class BusDbModelSnapshot : ModelSnapshot
+    partial class userDbModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

@@ -90,30 +90,32 @@ namespace WebMvc.Service
         }
 
         public List<EntryDetailDTO> GetEntryDetails()
+{
+    var entryDetails = _userDb.Entry
+        .Include(r => r.Stop)
+        .Include(r => r.Loop)
+        .Include(r => r.Driver)
+        .Include(r => r.Bus)
+        .Select(r => new EntryDetailDTO
         {
-            var entryDetails = _userDb.Entry
-                .Include(r => r.Stop) // Ensure your Route entity has navigation properties to Stop and Loop
-                .Include(r => r.Loop)
-                .Include(r => r.Driver)
-                .Include(r => r.Bus)
-                .Select(r => new EntryDetailDTO
-                {
-                    Id = r.Id,
-                    TimeStamp = r.TimeStamp,
-                    Boarded = r.Boarded,
-                    LeftBehind = r.LeftBehind,
-                    StopId = r.StopId,
-                    StopName = r.Stop.Name,
-                    LoopId = r.LoopId, // Assuming Stop has a Name property
-                    LoopName = r.Loop.Name,
-                    DriverId = r.DriverId, // Assuming Loop has a Name property
-                    DriverName = r.Driver.FirstName + " " + r.Driver.LastName,
-                    BusId = r.BusId,
-                    BusNumber = r.Bus.BusNumber
-                }).ToList();
+            Id = r.Id,
+            TimeStamp = r.TimeStamp,
+            Boarded = r.Boarded,
+            LeftBehind = r.LeftBehind,
+            StopId = r.StopId,
+            StopName = r.Stop != null  ? r.Stop.Name : "Unknown",
+            LoopId = r.LoopId,
+            LoopName = r.Loop != null  ? r.Loop.Name : "Unknown",
+            DriverId = r.DriverId,
+            DriverName = r.Driver != null  ? $"{r.Driver.FirstName} {r.Driver.LastName}" : "Unknown",
+            BusId = r.BusId,
+            BusNumber = r.Bus != null  ? r.Bus.BusNumber : 0
+        })
+        .ToList();
 
-            return entryDetails;
-        }
+    return entryDetails;
+}
+
         public class EntryDetailsWithLoopDTO
         {
             public int Id { get; set; }

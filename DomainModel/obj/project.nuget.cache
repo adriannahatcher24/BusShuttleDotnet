@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PMLJh9X8fg0O4/ZGsm72e3RB0hT7g6nahmpmvD0x4EZn+XGF2q/O+9FsoxZnZVOb6fcbuCw3WMINWj4IGxsnHg==",
+  "dgSpecHash": "fyDNYbX7vwBH5pO0mYBJK61MRmn0EN5TTcuo/ax2FePdoUZSH0Cc0Lu+UNnnvmrguMuUXDjQnGwyPtkQq81Daw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\adria\\Downloads\\BusShuttleInDotnet-main\\BusShuttleInDotnet-main\\DomainModel\\DomainModel.csproj",
+  "projectFilePath": "C:\\Users\\adria\\BusShuttleProject\\DomainModel\\DomainModel.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

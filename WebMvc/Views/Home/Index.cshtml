@@ -1,6 +1,6 @@
 ﻿@model WebMvc.Models.LoginModel
 @{
-    ViewData["Title"] = "LogIn";
+    ViewData["Title"] = "Login Page";
 }
 <h2>Login</h2>
 <div class="row">
@@ -17,6 +17,7 @@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>

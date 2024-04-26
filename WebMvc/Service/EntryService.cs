@@ -115,6 +115,7 @@ namespace WebMvc.Service
     return entryDetails;
 }
 
+
         public class EntryDetailsWithLoopDTO
         {
             public int Id { get; set; }

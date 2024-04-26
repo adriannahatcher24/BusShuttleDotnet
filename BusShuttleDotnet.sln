@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMvc", "WebMvc\WebMvc.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModel", "DomainModel\DomainModel.csproj", "{780FEEA7-ECC9-44DD-A222-60AECDF0BCF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusShuttleInDotnet.Tests", "BusShuttleInDotnet.Tests\BusShuttleInDotnet.Tests.csproj", "{7287C7B4-F3FB-4C1D-A26B-CB0A659B78DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusDontnet.Tests\BusDontnet.Tests.csproj", "{7287C7B4-F3FB-4C1D-A26B-CB0A659B78DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

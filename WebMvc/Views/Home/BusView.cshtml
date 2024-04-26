@@ -2,34 +2,50 @@
 @{
     ViewData["Title"] = "Bus List";
 }
-<h2>Bus List</h2>
-<a asp-action="HomeView">Back to List</a>
+<h1>Bus List</h1>
+<a asp-action="HomeView" class="btn">Back to List</a>
+<a asp-action="BusCreate" class="btn">Create a new Bus</a>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BusNumber)
-            </th>
-            <th></th>
+            <th>Bus Number</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => item.BusNumber)</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BusNumber)
-                </td>
-                <td>
-                    <a asp-action="BusEdit" asp-route-id="@item.Id">Edit</a> | <form asp-action="BusDelete"
-                        asp-route-id="@item.Id" method="post" style="display:inline">
-                        <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete this?');">Delete</button>
+                    <a asp-action="BusEdit" asp-route-id="@item.Id">Edit</a> | 
+                    <form asp-action="BusDelete" asp-route-id="@item.Id" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?');">Delete</button>
                     </form>
                 </td>
-
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="BusCreate">Create a new Bus</a>
+
+<style>
+    .table{
+        font-size: 30px;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: 25px;
+    }
+    
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>

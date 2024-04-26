@@ -29,7 +29,11 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="row justify-content-center"> <!-- Center the login page -->
+                <div class="col-md-6"> <!-- Adjust the column width as needed -->
+                    @RenderBody()
+                </div>
+            </div>
         </main>
     </div>
 
@@ -44,3 +48,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

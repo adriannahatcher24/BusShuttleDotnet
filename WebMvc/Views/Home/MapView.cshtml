@@ -3,7 +3,7 @@
     ViewData["Title"] = "Map";
 }
 <h2>Map</h2>
-<a asp-action="HomeView">Back to List</a>
+<a asp-action="HomeView" class="btn">Back to List</a>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9P33QDKIkNN9JSLfCOgiwrKOThW-3EBk&callback=initMap">
     </script>
@@ -41,3 +41,27 @@
             }
     }
 </script>
+
+<style>
+    .btn-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Adjust alignment as needed */
+    }
+    
+    .btn {
+        flex-grow: 1; /* Allow buttons to stretch */
+        padding: 10px 20px;
+        margin: 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: 20px;
+    }
+    
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>

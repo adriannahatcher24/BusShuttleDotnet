@@ -3,7 +3,9 @@
     ViewData["Title"] = "Route List";
 }
 <h2>Route List</h2>
-<a asp-action="HomeView">Back to List</a>
+<a asp-action="HomeView" class="btn">Back to List</a>
+<a asp-action="RouteCreate" class="btn">Create a new Route</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -44,4 +46,24 @@
         }
     </tbody>
 </table>
-<a asp-action="RouteCreate">Create a new Route</a>
+
+<style>
+        .table{
+        font-size: 30px;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: 25px;
+    }
+    
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>

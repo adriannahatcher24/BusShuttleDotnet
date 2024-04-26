@@ -3,34 +3,37 @@
     ViewData["Title"] = "Manager Dashboard";
 }
 <h2>Manager Dashboard</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="BusView">Buses</a>
-            </th>
-            <th>
-                <a asp-action="DriverView">Drivers</a>
-            </th>
-            <th>
-                <a asp-action="EntryView">Entries</a>
-            </th>
-            <th>
-                <a asp-action="LoopView">Loops</a>
-            </th>
-            <th>
-                <a asp-action="RouteView">Routes</a>
-            </th>
-            <th>
-                <a asp-action="StopView">Stops</a>
-            </th>
-            <th>
-                <a asp-action="Report">Report</a>
-            </th>
-            <th>
-                <a asp-action="MapView">Map</a>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-</table>
+<div class="btn-container">
+    <a href="BusView" class="btn">Buses</a>
+    <a href="DriverView" class="btn">Drivers</a>
+    <a href="EntryView" class="btn">Entries</a>
+    <a href="LoopView" class="btn">Loops</a>
+    <a href="RouteView" class="btn">Routes</a>
+    <a href="StopView" class="btn">Stops</a>
+    <a href="Report" class="btn">Report</a>
+    <a href="MapView" class="btn">Map</a>
+</div>
+
+<style>
+    .btn-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Adjust alignment as needed */
+    }
+    
+    .btn {
+        flex-grow: 1; /* Allow buttons to stretch */
+        padding: 10px 20px;
+        margin: 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: 40px;
+    }
+    
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>

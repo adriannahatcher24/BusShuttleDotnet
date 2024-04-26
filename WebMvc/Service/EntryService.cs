@@ -89,7 +89,7 @@ namespace WebMvc.Service
             public int BusNumber { get; set; }
         }
 
-        public List<EntryDetailDTO> GetEntryDetails()
+       public List<EntryDetailDTO> GetEntryDetails()
 {
     var entryDetails = _userDb.Entry
         .Include(r => r.Stop)
@@ -103,13 +103,12 @@ namespace WebMvc.Service
             Boarded = r.Boarded,
             LeftBehind = r.LeftBehind,
             StopId = r.StopId,
-            StopName = r.Stop != null  ? r.Stop.Name : "Unknown",
+            StopName = r.Stop != null ? r.Stop.Name : "Unknown",    
             LoopId = r.LoopId,
-            LoopName = r.Loop != null  ? r.Loop.Name : "Unknown",
+            LoopName = r.Loop != null ? r.Loop.Name : "Unknown",
             DriverId = r.DriverId,
-            DriverName = r.Driver != null  ? $"{r.Driver.FirstName} {r.Driver.LastName}" : "Unknown",
             BusId = r.BusId,
-            BusNumber = r.Bus != null  ? r.Bus.BusNumber : 0
+            BusNumber = r.Bus != null ? r.Bus.BusNumber : 0
         })
         .ToList();
 
